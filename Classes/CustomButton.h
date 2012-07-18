@@ -27,8 +27,8 @@
     CGFloat _brightness;
 }
 @property  int buttonStyle;
-@property  BOOL selected;
-@property  BOOL toggled;
+@property  (nonatomic) BOOL selected;
+@property  (nonatomic) BOOL toggled;
 @property  BOOL pause;
 @property (retain) NSInvocation *invocation;
 @property  CGFloat hue;

@@ -89,7 +89,7 @@
 			_pause = YES;			
 		} else {
             // Create label for button
-            UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero] ;
             label.textAlignment = UITextAlignmentCenter;
             label.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
             label.text = text;
@@ -115,7 +115,7 @@
 - (void)setLabelWithText:(NSString*)text andSize:(float)size andVerticalShift:(float)shift {
 	// Create label for button
 	CGRect frame=CGRectMake(self.bounds.origin.x, self.bounds.origin.y+shift, self.bounds.size.width, self.bounds.size.height);
-	UILabel *label = [[[UILabel alloc] initWithFrame:frame] autorelease];
+	UILabel *label = [[UILabel alloc] initWithFrame:frame];
 	label.textAlignment = UITextAlignmentCenter;
 	label.text = text;
 	label.backgroundColor = [UIColor clearColor];
@@ -135,7 +135,7 @@
 
 - (id)initWithText:(NSString *)text target:(id)target selector:(SEL)selector {
 	
-	[self initWithTextAndHSB:text target:target selector:selector hue:0.0f saturation:0.0f brightness:0.0f];
+	self = [self initWithTextAndHSB:text target:target selector:selector hue:0.0f saturation:0.0f brightness:0.0f];
 	
 	return self;
 	
@@ -261,12 +261,6 @@
 
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
     self.selected = NO;
-}
-
-- (void)dealloc {
-    [_invocation release];
-    _invocation = nil;
-    [super dealloc];
 }
 
 @end
