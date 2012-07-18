@@ -28,6 +28,7 @@
 @synthesize brightness = _brightness;
 @synthesize buttonStyle = _buttonStyle;
 @synthesize label=_label;
+@synthesize margin = _margin;
 
 -(id) initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
@@ -156,7 +157,7 @@
 	CGColorRef outerTop = [UIColor colorWithHue:_hue saturation:_saturation brightness:1.0*actualBrightness alpha:1.0].CGColor;
     CGColorRef outerBottom = [UIColor colorWithHue:_hue saturation:_saturation brightness:0.80*actualBrightness alpha:1.0].CGColor;
 	
-    CGFloat outerMargin = 7.5f;
+    CGFloat outerMargin = _margin+1.0f;
     CGRect outerRect = CGRectInset(self.bounds, outerMargin, outerMargin);            
     CGMutablePathRef outerPath = createRoundedRectForRect(outerRect, 6.0);
 	
@@ -176,7 +177,7 @@
 
 	if (!self.toggled) {
 		//bottom highlight
-		CGRect highlightRect2 = CGRectInset(self.bounds, 6.5f, 6.5f);
+		CGRect highlightRect2 = CGRectInset(self.bounds, _margin, _margin);
 		CGMutablePathRef highlightPath2 = createRoundedRectForRect(highlightRect2, 6.0);
 		
 		CGContextSaveGState(context);
@@ -191,7 +192,7 @@
 	}
     else {
 		//toggle marker
-		CGRect toggleRect= CGRectInset(self.bounds, 5.0f, 5.0f);
+		CGRect toggleRect= CGRectInset(self.bounds, _margin-1.0f, _margin-1.0f);
 		CGMutablePathRef togglePath= createRoundedRectForRect(toggleRect, 8.0);
 
 		CGContextSaveGState(context);

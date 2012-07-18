@@ -34,6 +34,7 @@
 @property  CGFloat hue;
 @property  CGFloat saturation;
 @property  CGFloat brightness;
+@property  CGFloat margin;
 @property (retain) UILabel *label;
 
 - (id)initWithText:(NSString *)text target:(id)target selector:(SEL)selector;
