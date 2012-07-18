@@ -168,32 +168,12 @@
 
 	CGContextRestoreGState(context);
 	    
-	if (!self.selected) {
+    CGContextSaveGState(context);
+    CGContextAddPath(context, outerPath);
+    CGContextClip(context);
+    drawLinearGloss(context, outerRect, self.selected);		
+    CGContextRestoreGState(context);
 
-		CGRect highlightRect = CGRectInset(outerRect, 1.0f, 1.0f);
-		CGMutablePathRef highlightPath = createRoundedRectForRect(highlightRect, 6.0);
-
-		CGContextSaveGState(context);
-		CGContextAddPath(context, outerPath);
-		CGContextAddPath(context, highlightPath);
-		CGContextEOClip(context);
-
-		drawLinearGradient(context, CGRectMake(outerRect.origin.x, outerRect.origin.y, outerRect.size.width, outerRect.size.height/3), highlightStart, highlightStop);
-		CGContextRestoreGState(context);
-		
-		drawCurvedGloss(context, outerRect, 180);
-		CFRelease(highlightPath);
-
-	}
-	else {
-		//reverse non-curved gradient when pressed
-		CGContextSaveGState(context);
-		CGContextAddPath(context, outerPath);
-		CGContextClip(context);
-		drawLinearGloss(context, outerRect, TRUE);		
-		CGContextRestoreGState(context);
-		
-	}
 	if (!self.toggled) {
 		//bottom highlight
 		CGRect highlightRect2 = CGRectInset(self.bounds, 6.5f, 6.5f);
