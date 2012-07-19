@@ -150,12 +150,12 @@
         actualBrightness -= 0.10;
     }   
     
-    CGColorRef blackColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0].CGColor;
-    CGColorRef highlightStart = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.7].CGColor;
-    CGColorRef highlightStop = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.0].CGColor;
+    CGColorRef blackColor = (CGColorRef)CFRetain([UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0].CGColor);
+    CGColorRef highlightStart = (CGColorRef)CFRetain([UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.7].CGColor);
+    CGColorRef highlightStop = (CGColorRef)CFRetain([UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.0].CGColor);
 
-	CGColorRef outerTop = [UIColor colorWithHue:_hue saturation:_saturation brightness:1.0*actualBrightness alpha:1.0].CGColor;
-    CGColorRef outerBottom = [UIColor colorWithHue:_hue saturation:_saturation brightness:0.80*actualBrightness alpha:1.0].CGColor;
+	CGColorRef outerTop = (CGColorRef)CFRetain([UIColor colorWithHue:_hue saturation:_saturation brightness:1.0*actualBrightness alpha:1.0].CGColor);
+    CGColorRef outerBottom = (CGColorRef)CFRetain([UIColor colorWithHue:_hue saturation:_saturation brightness:0.80*actualBrightness alpha:1.0].CGColor);
 	
     CGFloat outerMargin = _margin+1.0f;
     CGRect outerRect = CGRectInset(self.bounds, outerMargin, outerMargin);            
@@ -166,7 +166,8 @@
 	CGContextAddPath(context, outerPath);
 	CGContextClip(context);
 	drawLinearGradient(context, outerRect, outerTop, outerBottom);
-
+    CFRelease(outerTop);
+    CFRelease(outerBottom);
 	CGContextRestoreGState(context);
 	    
     CGContextSaveGState(context);
@@ -212,7 +213,9 @@
     CGContextRestoreGState(context);
 
     CFRelease(outerPath);
-   
+    CFRelease(blackColor);
+    CFRelease(highlightStop);
+    CFRelease(highlightStart);
     
 }
 

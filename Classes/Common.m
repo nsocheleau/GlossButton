@@ -28,9 +28,10 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGFloat locations[] = { 0.0, 1.0 };
     
-    NSArray *colors = [NSArray arrayWithObjects:(__bridge_transfer id)startColor, (__bridge_transfer id)endColor, nil];
-    
-    CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (__bridge_retained  CFArrayRef) colors, locations);
+    CFMutableArrayRef colors = CFArrayCreateMutable(kCFAllocatorDefault, 2, NULL);
+    CFArrayAppendValue(colors, startColor);
+    CFArrayAppendValue(colors, endColor);
+    CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, colors, locations);
     
     CGPoint startPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
     CGPoint endPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect));
@@ -43,6 +44,7 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
     
     CGColorSpaceRelease(colorSpace);
     CGGradientRelease(gradient);
+    CFRelease(colors);
 }
 /*
 void draw1PxStroke(CGContextRef context, CGPoint startPoint, CGPoint endPoint, CGColorRef color) {
@@ -61,8 +63,8 @@ void draw1PxStroke(CGContextRef context, CGPoint startPoint, CGPoint endPoint, C
 
 void drawLinearGloss(CGContextRef context, CGRect rect, BOOL reverse) {
 
-	CGColorRef highlightStart = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.35].CGColor;
-	CGColorRef highlightEnd = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.1].CGColor;
+	CGColorRef highlightStart = (CGColorRef)CFRetain([UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.35].CGColor);
+	CGColorRef highlightEnd = (CGColorRef)CFRetain([UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.1].CGColor);
 
     if (reverse) {
 		
@@ -73,13 +75,15 @@ void drawLinearGloss(CGContextRef context, CGRect rect, BOOL reverse) {
 		CGRect half = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height/2);    
 		drawLinearGradient(context, half, highlightStart, highlightEnd);
 	}
+    CFRelease(highlightStart);
+    CFRelease(highlightEnd);
     
 }
 
 void drawCurvedGloss(CGContextRef context, CGRect rect, CGFloat radius) {
 	
-	CGColorRef glossStart = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.6].CGColor;
-	CGColorRef glossEnd = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.1].CGColor;
+	CGColorRef glossStart = (CGColorRef)CFRetain([UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.6].CGColor);
+	CGColorRef glossEnd = (CGColorRef)CFRetain([UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.1].CGColor);
 
 	//CGFloat radius = 60.0f; //radius of gloss
 	
@@ -104,6 +108,8 @@ void drawCurvedGloss(CGContextRef context, CGRect rect, CGFloat radius) {
     
 	CGPathRelease(buttonPath);
 	CGPathRelease(glossPath);
+    CFRelease(glossEnd);
+    CFRelease(glossStart);
 }
 
 /*
